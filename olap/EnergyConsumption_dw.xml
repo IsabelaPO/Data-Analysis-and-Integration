@@ -1,0 +1,32 @@
+<Schema name="EnergyConsumoption_dw">
+  <Cube name="Energy Consumption" visible="true" cache="true" enabled="true">
+    <Table name="fact_energy_consumption">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="LOCATION_ID" highCardinality="false" name="Location">
+      <Hierarchy name="Location Hierarchy" visible="true" hasAll="true" allMemberName="All Locations" primaryKey="LOCATION_ID">
+        <Table name="dim_location">
+        </Table>
+        <Level name="Region" visible="true" column="REGION" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Municipality" visible="true" column="MUNICIPALITY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Parish" visible="true" column="PARISH" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="TimeDimension" visible="true" foreignKey="TIME_ID" highCardinality="false" name="Time">
+      <Hierarchy name="Time Hierarchy" visible="true" hasAll="true" allMemberName="All Years" primaryKey="TIME_ID">
+        <Table name="dim_time">
+        </Table>
+        <Level name="Year" visible="true" column="YEAR_ID" type="Integer" uniqueMembers="false" levelType="TimeYears" hideMemberIf="Never">
+        </Level>
+        <Level name="Season" visible="true" column="SEASON" ordinalColumn="SEASON_ID" type="String" uniqueMembers="true" levelType="TimeQuarters" hideMemberIf="Never">
+        </Level>
+        <Level name="Month" visible="true" column="MONTH_ID" ordinalColumn="MONTH_ID" type="Integer" uniqueMembers="true" levelType="TimeMonths" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Energy Consumption" column="ENERGY_CONSUMPTION" datatype="Numeric" formatString="$#,###.00" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
